@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+    http://www.springframework.org/schema/aop   
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    <bean id="shapeService" class="org.ashok.AOPService.ShapeService" autowire="byName">
+    
+    </bean>
+    
+    <bean id="circle" class="org.ashok.AOPModel.Circle">
+      <property name="name" value="CircleName"></property>
+    </bean>
+    
+    <bean id="triangle" class="org.ashok.AOPModel.Triangle">
+      <property name="name" value="TriangleName"></property>
+    </bean>
+    <aop:config>
+      <aop:aspect id="logAspect" ref="loggingaspect">
+        <aop:pointcut expression="execution(public * get*())" id="allgetters"/>
+        <aop:before pointcut-ref="allgetters" method="loggingAdvice"/>
+      </aop:aspect>
+    </aop:config>
+    <bean name="loggingaspect" class="org.ashok.AOPAspect.LoggingAspect"></bean>
+    <!-- Tell Spring to check for any classes marked with @Aspect and execute the advices specified -->
+    
+    </beans>
